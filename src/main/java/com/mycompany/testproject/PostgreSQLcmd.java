@@ -25,13 +25,10 @@ public class PostgreSQLcmd extends javax.swing.JFrame{
      //String url = "jdbc:postgresql://localhost:5432/testdb";
       static String url = "jdbc:postgresql://127.0.0.1:5432/postgres";
       static String user = "postgres";
-      static String password = "66177520";
+      static String password = "...";
       
     public static void SQLversioncheck() {
-        //String url = "jdbc:postgresql://localhost:5432/testdb";
-        //String url = "jdbc:postgresql://127.0.0.1:5432/postgres";
-        //String user = "postgres";
-        //String password = "66177520";
+        
 
         try (Connection con = DriverManager.getConnection(url, user, password);
                 Statement st = con.createStatement();
@@ -49,11 +46,6 @@ public class PostgreSQLcmd extends javax.swing.JFrame{
     }
     
     public static void datacheck() {
-
-        //String url = "jdbc:postgresql://localhost:5432/testdb";
-        //String url = "jdbc:postgresql://127.0.0.1:5432/postgres";
-        //String user = "postgres";
-        //String password = "66177520";
 
         try (Connection con = DriverManager.getConnection(url, user, password);
                 PreparedStatement pst = con.prepareStatement("SELECT * FROM record");
@@ -78,11 +70,6 @@ public class PostgreSQLcmd extends javax.swing.JFrame{
     public static void insertdata(String name,String mobilestr,String address) 
     {
 
-        //String url = "jdbc:postgresql://localhost:5432/testdb";
-        //String url = "jdbc:postgresql://127.0.0.1:5432/postgres";
-        //String user = "postgres";
-        //String password = "66177520";
-        
         Scanner myScanner = new Scanner(System.in);
         System.out.println("Enter ID:");
         String idinput = myScanner.nextLine();
@@ -111,11 +98,6 @@ public class PostgreSQLcmd extends javax.swing.JFrame{
     }
     
     public static void update_table(javax.swing.JTable Table1) {
-
-        //String url = "jdbc:postgresql://localhost:5432/testdb";
-        //String url = "jdbc:postgresql://127.0.0.1:5432/postgres";
-        //String user = "postgres";
-        //String password = "66177520";
 
         try 
         {
@@ -152,10 +134,6 @@ public class PostgreSQLcmd extends javax.swing.JFrame{
                                 javax.swing.JTextField addressfield) 
     {
 
-        //String url = "jdbc:postgresql://localhost:5432/testdb";
-        //String url = "jdbc:postgresql://127.0.0.1:5432/postgres";
-        //String user = "postgres";
-        //String password = "66177520";
         DefaultTableModel Df = (DefaultTableModel)Table1.getModel();
         int selectedIndex = Table1.getSelectedRow();
         
@@ -191,11 +169,6 @@ public class PostgreSQLcmd extends javax.swing.JFrame{
                                 javax.swing.JTextField mobilefield,
                                 javax.swing.JTextField addressfield) 
     {
-
-        //String url = "jdbc:postgresql://localhost:5432/testdb";
-        //String url = "jdbc:postgresql://127.0.0.1:5432/postgres";
-        //String user = "postgres";
-        //String password = "66177520";
         
         DefaultTableModel Df = (DefaultTableModel)Table1.getModel();
         int selectedIndex = Table1.getSelectedRow();
