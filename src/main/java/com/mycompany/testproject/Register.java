@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 
 import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -73,8 +74,18 @@ public class Register extends javax.swing.JFrame {
         });
 
         editbutton.setText("Edit");
+        editbutton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editbuttonActionPerformed(evt);
+            }
+        });
 
         deletebutton.setText("Delete");
+        deletebutton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deletebuttonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -136,6 +147,11 @@ public class Register extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        Table1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Table1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(Table1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -187,6 +203,37 @@ public class Register extends javax.swing.JFrame {
         PostgreSQLcmd.update_table(Table1);
         JOptionPane.showMessageDialog(null, "record added");
     }//GEN-LAST:event_addbuttonActionPerformed
+
+    private void Table1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Table1MouseClicked
+        // TODO add your handling code here:
+        DefaultTableModel Df = (DefaultTableModel)Table1.getModel();
+        int selectedIndex = Table1.getSelectedRow();
+        namefield.setText(Df.getValueAt(selectedIndex, 1).toString());
+        mobilefield.setText(Df.getValueAt(selectedIndex, 2).toString());
+        addressfield.setText(Df.getValueAt(selectedIndex, 3).toString());
+    }//GEN-LAST:event_Table1MouseClicked
+
+    private void editbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editbuttonActionPerformed
+        // TODO add your handling code here:
+        PostgreSQLcmd.editdata(Table1, namefield, mobilefield, addressfield);
+        namefield.setText("");
+        mobilefield.setText("");
+        addressfield.setText("");
+        namefield.requestFocus();
+        PostgreSQLcmd.update_table(Table1);
+        JOptionPane.showMessageDialog(null, "record update");
+    }//GEN-LAST:event_editbuttonActionPerformed
+
+    private void deletebuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletebuttonActionPerformed
+        // TODO add your handling code here:
+        PostgreSQLcmd.deletedata(Table1, namefield, mobilefield, addressfield);
+        namefield.setText("");
+        mobilefield.setText("");
+        addressfield.setText("");
+        namefield.requestFocus();
+        PostgreSQLcmd.update_table(Table1);
+        JOptionPane.showMessageDialog(null, "record deleted");
+    }//GEN-LAST:event_deletebuttonActionPerformed
 
     /**
      * @param args the command line arguments

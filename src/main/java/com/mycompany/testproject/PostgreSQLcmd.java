@@ -20,18 +20,18 @@ import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author raimaximus
- */
-public class PostgreSQLcmd extends javax.swing.JFrame{
-    public static void SQLversioncheck() {
 
-        
+public class PostgreSQLcmd extends javax.swing.JFrame{
+     //String url = "jdbc:postgresql://localhost:5432/testdb";
+      static String url = "jdbc:postgresql://127.0.0.1:5432/postgres";
+      static String user = "postgres";
+      static String password = "66177520";
+      
+    public static void SQLversioncheck() {
         //String url = "jdbc:postgresql://localhost:5432/testdb";
-        String url = "jdbc:postgresql://127.0.0.1:5432/postgres";
-        String user = "postgres";
-        String password = "66177520";
+        //String url = "jdbc:postgresql://127.0.0.1:5432/postgres";
+        //String user = "postgres";
+        //String password = "66177520";
 
         try (Connection con = DriverManager.getConnection(url, user, password);
                 Statement st = con.createStatement();
@@ -51,9 +51,9 @@ public class PostgreSQLcmd extends javax.swing.JFrame{
     public static void datacheck() {
 
         //String url = "jdbc:postgresql://localhost:5432/testdb";
-        String url = "jdbc:postgresql://127.0.0.1:5432/postgres";
-        String user = "postgres";
-        String password = "66177520";
+        //String url = "jdbc:postgresql://127.0.0.1:5432/postgres";
+        //String user = "postgres";
+        //String password = "66177520";
 
         try (Connection con = DriverManager.getConnection(url, user, password);
                 PreparedStatement pst = con.prepareStatement("SELECT * FROM record");
@@ -79,9 +79,9 @@ public class PostgreSQLcmd extends javax.swing.JFrame{
     {
 
         //String url = "jdbc:postgresql://localhost:5432/testdb";
-        String url = "jdbc:postgresql://127.0.0.1:5432/postgres";
-        String user = "postgres";
-        String password = "66177520";
+        //String url = "jdbc:postgresql://127.0.0.1:5432/postgres";
+        //String user = "postgres";
+        //String password = "66177520";
         
         Scanner myScanner = new Scanner(System.in);
         System.out.println("Enter ID:");
@@ -113,14 +113,14 @@ public class PostgreSQLcmd extends javax.swing.JFrame{
     public static void update_table(javax.swing.JTable Table1) {
 
         //String url = "jdbc:postgresql://localhost:5432/testdb";
-        String url = "jdbc:postgresql://127.0.0.1:5432/postgres";
-        String user = "postgres";
-        String password = "66177520";
+        //String url = "jdbc:postgresql://127.0.0.1:5432/postgres";
+        //String user = "postgres";
+        //String password = "66177520";
 
         try 
         {
             Connection con = DriverManager.getConnection(url, user, password);
-            PreparedStatement pst = con.prepareStatement("SELECT * FROM record");
+            PreparedStatement pst = con.prepareStatement("SELECT * FROM record ORDER BY id ASC");
             ResultSet rs = pst.executeQuery();
             ResultSetMetaData Rss = rs.getMetaData();
             int col_num = Rss.getColumnCount();
@@ -144,5 +144,82 @@ public class PostgreSQLcmd extends javax.swing.JFrame{
             Logger lgr = Logger.getLogger(PostgreSQLcmd.class.getName());
             lgr.log(Level.SEVERE, ex.getMessage(), ex);
         }
+    }
+    
+    public static void editdata(javax.swing.JTable Table1, 
+                                javax.swing.JTextField namefield,
+                                javax.swing.JTextField mobilefield,
+                                javax.swing.JTextField addressfield) 
+    {
+
+        //String url = "jdbc:postgresql://localhost:5432/testdb";
+        //String url = "jdbc:postgresql://127.0.0.1:5432/postgres";
+        //String user = "postgres";
+        //String password = "66177520";
+        DefaultTableModel Df = (DefaultTableModel)Table1.getModel();
+        int selectedIndex = Table1.getSelectedRow();
+        
+        int id = Integer.parseInt(Df.getValueAt(selectedIndex, 0).toString());
+        String name = namefield.getText();
+        String mobilestr = mobilefield.getText();
+        int mobile = Integer.parseInt(mobilestr);
+        String address = addressfield.getText();
+        
+        String query = "UPDATE record SET name=?, mobile=?, address=? where id=?";
+
+        try (Connection con = DriverManager.getConnection(url, user, password);
+             PreparedStatement pst = con.prepareStatement(query)) {
+            
+            
+            pst.setString(1, name);
+            pst.setInt(2, mobile);
+            pst.setString(3, address);
+            pst.setInt(4, id);
+            pst.executeUpdate();
+            
+
+
+        } catch (SQLException ex) {
+
+            Logger lgr = Logger.getLogger(PostgreSQLcmd.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+    }
+    
+    public static void deletedata(javax.swing.JTable Table1, 
+                                javax.swing.JTextField namefield,
+                                javax.swing.JTextField mobilefield,
+                                javax.swing.JTextField addressfield) 
+    {
+
+        //String url = "jdbc:postgresql://localhost:5432/testdb";
+        //String url = "jdbc:postgresql://127.0.0.1:5432/postgres";
+        //String user = "postgres";
+        //String password = "66177520";
+        
+        DefaultTableModel Df = (DefaultTableModel)Table1.getModel();
+        int selectedIndex = Table1.getSelectedRow();
+        int id = Integer.parseInt(Df.getValueAt(selectedIndex, 0).toString());
+        
+        int dialogResult = JOptionPane.showConfirmDialog(null, "Do you want to delete this row?","Warning",JOptionPane.YES_NO_OPTION);
+        if (dialogResult == JOptionPane.YES_OPTION);
+        {
+            String query = "DELETE FROM record where id=?";
+
+            try {Connection con = DriverManager.getConnection(url, user, password);
+                 PreparedStatement pst = con.prepareStatement(query);
+                 pst.setInt(1, id);
+                 pst.executeUpdate();
+                } 
+
+            catch (SQLException ex) {
+
+                Logger lgr = Logger.getLogger(PostgreSQLcmd.class.getName());
+                lgr.log(Level.SEVERE, ex.getMessage(), ex);
+            }
+        }
+        
+        
+        
     }
 }
